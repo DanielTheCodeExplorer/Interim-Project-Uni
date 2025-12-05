@@ -1,1 +1,39 @@
-#map { height: 95vh; }
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+html , body{
+    height: 100%;
+    width: 100%
+}
+
+
+#webpage{
+    display: grid;
+    grid-template-areas: 
+        "sidebar    map"
+        "footer     footer";
+
+    grid-template-columns: 3fr  7fr;
+    grid-template-rows: 7fr  3fr;
+    height: 100%;
+    width: 100%;
+}
+
+#sidebar{
+    grid-area: sidebar;
+    width: 100vh;
+    height: 10vh;
+}
+
+#map { 
+    grid-area: map;
+    width: 100%;
+    height: 100%; 
+}
+
+footer{
+    grid-area: footer;
+}
