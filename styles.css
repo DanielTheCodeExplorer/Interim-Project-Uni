@@ -1,7 +1,6 @@
-<<<<<<< HEAD
+
 #map { height: 95vh; }
 
-=======
 *{
     margin: 0px;
     padding: 0px;
@@ -10,7 +9,8 @@
 
 html , body{
     height: 100%;
-    width: 100%
+    width: 100%;
+    background-color: #151934;
 }
 
 
@@ -20,16 +20,16 @@ html , body{
         "sidebar    map"
         "footer     footer";
 
-    grid-template-columns: 3fr  7fr;
-    grid-template-rows: 7fr  3fr;
+    grid-template-columns: 1fr  3fr;
+    grid-template-rows: 5fr  1fr;
     height: 100%;
     width: 100%;
 }
 
 #sidebar{
     grid-area: sidebar;
-    width: 100vh;
-    height: 10vh;
+    width: 100%;
+    height: 100%;
 }
 
 #map { 
@@ -41,4 +41,3 @@ html , body{
 footer{
     grid-area: footer;
 }
->>>>>>> refs/remotes/origin/main
