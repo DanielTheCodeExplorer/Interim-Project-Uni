@@ -7,10 +7,6 @@ function getPadding() {
   return [base, base];
 }
 
-function getNigeriaMaxZoom() {
-  return window.innerWidth < 640 ? 6.5 : 7.5;
-}
-
 function getWorldZoom(map) {
   return map.getBoundsZoom(worldBounds, true);
 }
@@ -23,10 +19,15 @@ function attachFocusButton(onNigeria, onWorld) {
 export function setupFocus(map) {
   createMaskPane(map);
   let mask = createSolidMask(map);
+  const mapEl = map.getContainer();
+  const toggleCursor = (on) => {
+    mapEl?.classList.toggle('map-button-cursor', on);
+  };
   let nigeriaLayer = null;
   let nigeriaBounds = null;
   let dataReady = false;
   let shadeTimer = null;
+  const originalMinZoom = map.getMinZoom();
 
   const scheduleDim = (on, delayMs) => {
     clearTimeout(shadeTimer);
@@ -39,17 +40,34 @@ export function setupFocus(map) {
     if (!dataReady) return;
     nigeriaLayer?.setStyle({ color: '#444', weight: 1, fillOpacity: 0.15, opacity: 1 });
     scheduleDim(true, 50);
-    map.flyToBounds(nigeriaBounds, { padding: getPadding(), maxZoom: getNigeriaMaxZoom(), duration: 0.75 });
+    toggleCursor(true);
+
+    const fitZoom = map.getBoundsZoom(nigeriaBounds, true);
+    const desiredZoom = Math.min(fitZoom - .1 , map.getMaxZoom());
+
+    map.once('moveend', () => {
+      map.setMaxBounds(nigeriaBounds);
+      map.setMinZoom(desiredZoom);
+    });
+    map.flyTo(nigeriaBounds.getCenter(), desiredZoom, { padding: getPadding(), duration: 0.75 });
   };
+
 
   const worldFocus = () => {
     if (!dataReady) return;
     nigeriaLayer?.setStyle({ weight: 0, fillOpacity: 0, opacity: 0 });
     scheduleDim(false, 50);
+    toggleCursor(false);
+    map.setMaxBounds(worldBounds)
+    map.setMinZoom(originalMinZoom);
     map.flyTo(worldBounds.getCenter(), getWorldZoom(map), { duration: 0.75 });
   };
 
   attachFocusButton(nigeriaFocus, worldFocus);
+
+  // Start in world view immediately
+  map.setMaxBounds(worldBounds);
+  map.flyTo(worldBounds.getCenter(), getWorldZoom(map), { duration: 0 });
 
   // Load Nigeria borders and swap the solid mask for a holed one
   fetch('nigeria.geojson')
@@ -65,6 +83,7 @@ export function setupFocus(map) {
       nigeriaLayer = addNigeriaLayer(map, geo);
       dataReady = true;
       worldFocus(); // start in world focus mode once data is ready
+      console.log('It has loaded')
     })
     .catch(console.error);
 
