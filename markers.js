@@ -62,7 +62,7 @@ export function setupMarkers(map) {
     const entry = { marker, type, coverage: null, decayTimer: null, placedAt: new Date().toISOString() };
 
     if (type === 'cell') {
-      // Show a fading coverage radius for towers
+      // Show a steady coverage radius for towers (no fading)
       const coverage = window.L.circle(latlng, {
         radius: 50000, // meters
         color: 'transparent',
@@ -71,18 +71,8 @@ export function setupMarkers(map) {
         weight: 0,
       }).addTo(map);
 
-      let strength = 0.35;
-      const decayTimer = setInterval(() => {
-        strength = Math.max(0, strength - 0.05);
-        coverage.setStyle({ fillOpacity: strength });
-        if (strength <= 0) {
-          map.removeLayer(coverage);
-          clearInterval(decayTimer);
-        }
-      }, 4000);
-
       entry.coverage = coverage;
-      entry.decayTimer = decayTimer;
+      entry.decayTimer = null;
     }
 
     markers.push(entry);
