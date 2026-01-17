@@ -127,5 +127,9 @@ export function setupMarkers(map) {
         placedAt: m.placedAt,
       }));
     downloadFiberCSV(fiberData);
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'map-download-triggered' }, '*');
+    }
+    setTimeout(() => { window.location.href = './dashboard.html'; }, 200);
   });
 }

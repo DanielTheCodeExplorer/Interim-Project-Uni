@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <link rel="stylesheet" href="styles.css">
+        <title>Map</title>
+    </head>
+
+    <body>
+        <div id="webpage">
+            <div id="map"></div>
+            <footer>
+                <div class="footer__headers">
+                    <button id="download-btn" class="download-btn">Download</button>
+                </div>
+
+                <div class="footer__headers">
+                    <span id="viewing_mode"> VIEW MODE </span>
+                    <div>
+                        <button id="world-btn">Grand Scheme</button>
+                        <button id="nigeria-btn">Nigeria Focus</button>
+                    </div>
+
+                </div>
+
+                <div class="footer__headers">
+                    <span> Fiber Cables <button id="fiber-btn"> 🟣 </button></span>
+                    <span>Cellular tower <button id="cell-btn"> 📡 </button></span>
+                    <span>Copper Cables <button id="copper-btn"> 🟤 </button></span>
+                </div>
+
+            </footer>
+        </div>
+    </body>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="module" src="./main.js"></script>
+
+
+</html>
